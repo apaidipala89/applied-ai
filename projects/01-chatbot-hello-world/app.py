@@ -10,10 +10,10 @@ def main():
     while True:
         user = input("You: ")
         if user.lower() in ('quit', 'exit', 'bye'):
-            print('Bot: Goodby! 👋')
+            print('Bot: Goodbye! 👋')
             break
         response = client.chat.completions.create(
-            model: 'gpt-4o-mini',
+            model='gpt-4o-mini',
             messages=[{'role': 'user', 'content': user}]
         )
         print('Bot:', response.choices[0].message.content)
