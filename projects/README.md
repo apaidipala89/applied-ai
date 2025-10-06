@@ -97,10 +97,10 @@ Key modules:
 
 (Use this to track learning milestones — keep terse.)
 
-- [ ] (YYYY-MM-DD) Baseline RAG latency measurement
-- [ ] (YYYY-MM-DD) Compare overlap 0 vs 50 vs 100
-- [ ] (YYYY-MM-DD) Add evaluation set & accuracy metric
-- [ ] (YYYY-MM-DD) Cache embeddings to disk
+- [ ] (2025-10-06) Baseline RAG latency measurement
+- [ ] (2025-10-06) Compare overlap 0 vs 50 vs 100
+- [ ] (2025-10-06) Add evaluation set & accuracy metric
+- [ ] (2025-10-06) Cache embeddings to disk
 
 ## Roadmap
 
