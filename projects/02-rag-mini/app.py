@@ -56,15 +56,24 @@ with gr.Blocks(title="RAG Mini (OpenAI Embeddings)") as demo:
     def _ask(query, k, chunks, index_or_matrix):
         if not OPENAI_API_KEY:
             return "⚠️ OPENAI_API_KEY not set.", ""
-        if not index_or_matrix or not chunks:
+        # Explicit validation (avoid NumPy truth-value ambiguity)
+        if (
+            index_or_matrix is None
+            or (isinstance(index_or_matrix, np.ndarray) and index_or_matrix.size == 0)
+            or (hasattr(index_or_matrix, "ntotal") and getattr(index_or_matrix, "ntotal") == 0)
+            or not chunks
+        ):
             return "⚠️ Load and process PDFs first.", ""
         if not query or not query.strip():
             return "⚠️ Enter a question.", ""
         hits = retrieve(query, index_or_matrix, chunks, top_k=int(k))
-        ctx = [text for _, text in hits]
+        if not hits:
+            return "No relevant chunks found.", ""
+        # Correct unpack: hits are (chunk_text, score)
+        ctx = [chunk for chunk, _ in hits]
         ans = generate_answer(query, ctx)
-        highlights = [(context, str(round(score, 3))) for score, context in hits]
-        return ans, '\n\n'.join(highlights)
+        highlights = [(chunk, f"{score:.3f}") for chunk, score in hits]
+        return ans, '\n\n'.join(f"{s} :: {c}" for c, s in highlights)
 
     # Updated inputs/outputs to match function signatures (3 outputs)
     load_button.click(

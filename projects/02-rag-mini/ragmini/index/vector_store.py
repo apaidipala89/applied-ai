@@ -60,8 +60,6 @@ def build_index(chunks: List[str]) -> Tuple[IndexLike, List[str]]:
         raise
     if not embeddings:
         raise EmbeddingError("No embeddings returned.")
-    if callable(embeddings):
-        raise EmbeddingError("Embedding step returned a callable unexpectedly.")
     dim = embeddings[0].shape[0]
     if USE_FAISS and FAISS_AVAILABLE:
         index = faiss.IndexFlatIP(dim)
